@@ -1,23 +1,23 @@
-名称：“更新时间表”
+name: 'Update schedule'
 
-在：
-  日程：
+on:
+  schedule:
     - cron: '0 22 * * *'
     - cron: '0 10 * * *'
-  workflow_dispatch ：
-    分支：branches
+  workflow_dispatch:
+    branches:
       - master
       - dev
       - gd
-工作：
-  推：
-    运行：${ {{ matrix.operating-system } }}
-    超时分钟：120
-    战略：
-      矩阵：
-        操作系统：[  'ubuntu-20.04'  ]
-    步骤：
-      -姓名：Set branch name
+jobs:
+  push:
+    runs-on: ${{ matrix.operating-system }}
+    timeout-minutes: 120
+    strategy:
+      matrix:
+        operating-system: [ 'ubuntu-20.04' ]
+    steps:
+      - name: Set branch name
         id: vars
         run: echo "BRANCH_NAME=${{ github.repository_owner == 'Guovin' && 'gd' || 'master' }}" >> $GITHUB_ENV
       - uses: actions/checkout@v3
@@ -29,8 +29,8 @@
           python-version: '3.13'
           update-environment: true
           cache: 'pipenv'
-      - name:       - 名称：检查open_driver配置
-        id:         id：check_driver
+      - name: Check open_driver config
+        id: check_driver
         run: |
           echo "OPEN_DRIVER=$(python -c '
           try:
