@@ -2,8 +2,8 @@ name: 'Update schedule'
 
 on:
   schedule:
-    - cron: '0 22 * * *'
-    - cron: '0 10 * * *'
+  - cron: '0 15 */2 * *'  # UTC时间每2天的14:00（对应北京时间22:00）
+    timezone: 'Asia/Shanghai'
   workflow_dispatch:
     branches:
       - master
